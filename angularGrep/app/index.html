@@ -1,0 +1,59 @@
+
+<!DOCTYPE html>
+<html ng-app="grepApp">
+
+  <head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <title>Angular App</title>
+    <!-- <script src="https://ajax.googleapis.com/ajax/libs/
+    angularjs/1.3.14/angular.min.js"></script> -->
+
+    <link rel="stylesheet" href="css/bootstrap-theme.css"></link>
+    <link rel="stylesheet" href="css/bootstrap.css"></link>
+    <link rel="stylesheet" href="css/app.css"></link>
+
+    <script src="bower_components/angular/angular.js"></script>
+    <script src="bower_components/angular-route/angular-route.js"></script>
+    <script src="bower_components/angular-resource/angular-resource.js"></script> 
+
+    <script src="js/grepApp.js"></script>
+    <script src="js/grepControllers.js"></script>
+    <script src="js/grepCustomFilters.js"></script>
+
+    </head>
+
+<body ng-controller="SearchListCtrl">
+   <div class="container">
+      <div class="jumbotron">
+        <h6>A tool to help find lines with certain strings in a big text block.</h6>
+        <!-- query area  FOR CUSTOM FILTER MODULE !-->
+        <input type="checkbox" ng-model="myCheckboxType" ng-true-value="1" 
+        ng-change="splitTextArea(searcharea)"> case sensitive  
+        <input type="checkbox" ng-model="myCheckboxType" ng-true-value="2" 
+        ng-change="splitTextArea(searcharea)"> general fit  
+        <input type="checkbox" ng-model="myCheckboxType" ng-true-value="3"> apply both  
+       <div>
+           <input ng-model="query" ng-change="splitTextArea(searcharea)" type="text" placeholder="Enter query" 
+           class="inputText">
+       </div><p>
+       <div class="textarea">
+           <textarea ng-model="searcharea" ng-change="splitTextArea(searcharea)"placeholder="Add text here"
+           class="resizedTextbox"></textarea>
+       </div>
+
+        <!-- apply Results table {{searcharea}} -->
+       <div class= "panel">
+          <h4 class="panel-heading"> Results <h4>
+          <table class="table table-striped table-bordered table-hover">
+              <!-- Show if just plain search, else add Case Sensitive/GeneralFit-->
+              <tr class="resultsFont" ng-repeat="item in searchTextArray.lineText | customFilter:query:myCheckboxType"
+              ng-bind-html= "item | highlightFilter:query">
+                <td>{{item}}</td> 
+              </tr> 
+          </table>
+        <div>
+    </div>
+</div>  <!-- end of div container: jumbotron " -->
+</body>
+</html>
